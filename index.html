@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        #map {
+            width: 1400px;
+            height: 680px;
+        }
+        .legend {
+            padding: 6px 8px;
+            font: 16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);*/
+            border-radius: 5px;*/
+            line-height: 24px;
+            color: #555;
+            width: 175px;
+            height: 140px;
+        }
+
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <h3 style="text-align:center;"><u>GEO641: Changes in Human Development Over Time 2000 - 2018</u></h3>
+        <div>
+            <pre>
+        <p style="text-align:center;">Map displays global changes in human development between the years 2000 and 2018 using the United Nations Human Development Index (HDI). HDI is formulated through the combination of life expectancy, education and gross national income indices.
+        Higher values reflect greater levels of development.  
+        </pre>
+        </div>
+        <div id="map">
+        </div>
+        <div>
+            <pre><b>Author:</b> 
+Tavis Buckland   
+<b>Data Sources:</b>
+Boundary files made with <a href="https://www.naturalearthdata.com/">Natural Earth</a>
+HDI Data obtained from <a href="http://hdr.undp.org/en/home/">United Nations: Human Development Reports</a> <a href="https://creativecommons.org/licenses/by/3.0/igo/legalcode">License</a>
+    
+            </pre>
+        </div>        
+        
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/NoDataLayer_1.js"></script>
+        <script src="data/HDI2000_2.js"></script>
+        <script src="data/HDI2018_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[-80.988283322568,-179.82539887511408],[84.21511702393701,179.36551170564115]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        var layer_Positronnolabels_0 = L.tileLayer('http://a.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+            opacity: 1.0,
+            attribution: '<a href="https://cartodb.com/basemaps/">Map tiles by CartoDB, under CC BY 3.0. Data by OpenStreetMap, under ODbL.</a>',
+            minZoom: 1,
+            maxZoom: 20,
+            minNativeZoom: 0,
+            maxNativeZoom: 28
+
+        });
+        layer_Positronnolabels_0;
+        map.addLayer(layer_Positronnolabels_0);
+        function pop_NoDataLayer_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN'] !== null ? Autolinker.link(feature.properties['ADMIN'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HDI2000'] !== null ? Autolinker.link(feature.properties['HDI2000'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HDI2018'] !== null ? Autolinker.link(feature.properties['HDI2018'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_NoDataLayer_1_0() {
+            return {
+                pane: 'pane_NoDataLayer_1',
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 1.0,
+                fillOpacity: 0,
+                interactive: false,
+            }
+        }
+        function style_NoDataLayer_1_1() {
+            return {
+                pane: 'pane_NoDataLayer_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: false,
+            }
+        }
+        var pattern_NoDataLayer_1_2 = new L.StripePattern({
+            weight: 0.3,
+            spaceWeight: 2.0,
+            color: '#000000',
+            opacity: 1.0,
+            spaceOpacity: 0,
+            angle: 315
+        });
+        pattern_NoDataLayer_1_2.addTo(map);
+        function style_NoDataLayer_1_2() {
+            return {
+                pane: 'pane_NoDataLayer_1',
+                stroke: false,
+                fillOpacity: 1,
+                fillPattern: pattern_NoDataLayer_1_2,
+                interactive: false,
+            }
+        }
+        map.createPane('pane_NoDataLayer_1');
+        map.getPane('pane_NoDataLayer_1').style.zIndex = 401;
+        map.getPane('pane_NoDataLayer_1').style['mix-blend-mode'] = 'normal';
+        var layer_NoDataLayer_1 = new L.geoJson.multiStyle(json_NoDataLayer_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_NoDataLayer_1',
+            layerName: 'layer_NoDataLayer_1',
+            pane: 'pane_NoDataLayer_1',
+            onEachFeature: pop_NoDataLayer_1,
+            styles: [style_NoDataLayer_1_0,style_NoDataLayer_1_1,style_NoDataLayer_1_2,]
+        });
+        bounds_group.addLayer(layer_NoDataLayer_1);
+        map.addLayer(layer_NoDataLayer_1);
+        function pop_HDI2000_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['ADMIN'] !== null ? Autolinker.link(feature.properties['ADMIN'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HDI2000'] !== null ? Autolinker.link(feature.properties['HDI2000'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['HDI2018'] !== null ? Autolinker.link(feature.properties['HDI2018'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_HDI2000_2_0(feature) {
+            if (feature.properties['HDI2000'] >= 0.800000 && feature.properties['HDI2000'] <= 1.000000 ) {
+                return {
+                pane: 'pane_HDI2000_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,68,27,1.0)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['HDI2000'] >= 0.700000 && feature.properties['HDI2000'] <= 0.800000 ) {
+                return {
+                pane: 'pane_HDI2000_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,146,74,1.0)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['HDI2000'] >= 0.550000 && feature.properties['HDI2000'] <= 0.700000 ) {
+                return {
+                pane: 'pane_HDI2000_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(123,200,124,1.0)',
+                interactive: false,
+            }
+            }
+            if (feature.properties['HDI2000'] >= 0.000001 && feature.properties['HDI2000'] <= 0.550000 ) {
+                return {
+                pane: 'pane_HDI2000_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,234,195,1.0)',
+                interactive: false,
+            }
+            }
+            else {
+                return {
+                pane: 'pane_HDI2000_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: false,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,234,195,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_HDI2000_2');
+        map.getPane('pane_HDI2000_2').style.zIndex = 402;
+        map.getPane('pane_HDI2000_2').style['mix-blend-mode'] = 'normal';
+        var layer_HDI2000_2 = new L.geoJson(json_HDI2000_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_HDI2000_2',
+            layerName: 'layer_HDI2000_2',
+            pane: 'pane_HDI2000_2',
+            onEachFeature: pop_HDI2000_2,
+            style: style_HDI2000_2_0,
+        });
+        bounds_group.addLayer(layer_HDI2000_2);
+        map.addLayer(layer_HDI2000_2);
+        function pop_HDI2018_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">Country</th>\
+                        <td>' + (feature.properties['ADMIN'] !== null ? Autolinker.link(feature.properties['ADMIN'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                                        <tr>\
+                        <th scope="row">HDI 2018:</th>\
+                        <td>' + (feature.properties['HDI2018'] !== null ? Autolinker.link(feature.properties['HDI2018'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">HDI 2000:</th>\
+                        <td>' + (feature.properties['HDI2000'] !== null ? Autolinker.link(feature.properties['HDI2000'].toLocaleString(), {truncate: {length: 30, location: 'smart'}}) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_HDI2018_3_0(feature) {
+            if (feature.properties['HDI2018'] >= 0.800000 && feature.properties['HDI2018'] <= 1.000000 ) {
+                return {
+                pane: 'pane_HDI2018_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,68,27,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['HDI2018'] >= 0.700000 && feature.properties['HDI2018'] <= 0.800000 ) {
+                return {
+                pane: 'pane_HDI2018_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(42,146,74,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['HDI2018'] >= 0.550000 && feature.properties['HDI2018'] <= 0.700000 ) {
+                return {
+                pane: 'pane_HDI2018_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(123,200,124,1.0)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['HDI2018'] >= 0.000001 && feature.properties['HDI2018'] <= 0.550000 ) {
+                return {
+                pane: 'pane_HDI2018_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,234,195,1.0)',
+                interactive: true,
+            }
+            }
+            else {
+                return {
+                pane: 'pane_HDI2018_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: false,
+                fillOpacity: 1,
+                fillColor: 'rgba(202,234,195,1.0)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane_HDI2018_3');
+        map.getPane('pane_HDI2018_3').style.zIndex = 403;
+        map.getPane('pane_HDI2018_3').style['mix-blend-mode'] = 'normal';
+        var layer_HDI2018_3 = new L.geoJson(json_HDI2018_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_HDI2018_3',
+            layerName: 'layer_HDI2018_3',
+            pane: 'pane_HDI2018_3',
+            onEachFeature: pop_HDI2018_3,
+            style: style_HDI2018_3_0,
+        });
+        bounds_group.addLayer(layer_HDI2018_3);
+        map.addLayer(layer_HDI2018_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'HDI 2018': layer_HDI2018_3,'HDI 2000': layer_HDI2000_2,},{collapsed:false}).addTo(map);
+        setBounds();
+
+                var legend = L.control({position: 'bottomleft'});
+
+        legend.onAdd = function (map) {
+
+            var div = L.DomUtil.create('div', 'info legend'),
+                grades = ["Very High (0.8 - 1)", "High (0.7 - 0.8)", "Medium (0.55 - 0.7)", "Low (< 0.55)", "No Data"];
+                labels = ['<img src="legend/HDI2018_3_VeryHigh080.png"/>','<img src="legend/HDI2018_3_High07081.png"/>','<img src="legend/HDI2018_3_Medium055072.png"/>','<img src="legend/HDI2018_3_Low0553.png"/>','<img src="legend/NoDataLayer_1.png"/>'];
+
+            div.innerHTML += "<strong> HDI Classifications</strong>" + '<br>' + '<br>';
+            // loop through our density intervals and generate a label with a colored square for each interval
+            for (var i = 0; i < grades.length; i++) {
+                div.innerHTML +=
+                    labels[i] + "  " +grades[i] + '<br>';
+            }
+
+            return div;
+        };
+        
+        legend.addTo(map);
+
+        </script>
+    </body>
+</html>
